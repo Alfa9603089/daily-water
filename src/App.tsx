@@ -26,28 +26,6 @@ type DailySummary = {
   totalVolume: number;
 };
 
-// Generate initial mock data for the past 5 days so the history isn't empty
-const generateMockHistory = (): WaterEntry[] => {
-  const mock: WaterEntry[] = [];
-  const today = new Date();
-  for (let i = 1; i <= 5; i++) {
-    const pastDate = subDays(today, i);
-    const dateStr = format(pastDate, 'yyyy-MM-dd');
-    // Generate around 8-11 cups per day to get closer to 2800cc
-    const cups = Math.floor(Math.random() * 4) + 8; 
-    for(let j=0; j<cups; j++) {
-       mock.push({
-         id: `mock-${i}-${j}`,
-         date: dateStr,
-         cups: 1,
-         volume: 250,
-         timestamp: pastDate.setHours(8 + j * 1.5, 30, 0, 0) // Mock times throughout the day
-       });
-    }
-  }
-  return mock;
-};
-
 export default function App() {
   // Bubbles Animation Data
   const bubbles = useMemo(() => {
@@ -69,10 +47,10 @@ export default function App() {
       try {
         return JSON.parse(saved);
       } catch (e) {
-        return generateMockHistory();
+        return [];
       }
     }
-    return generateMockHistory();
+    return [];
   });
 
   // Use empty string state to allow easy typing, but fallback to defaults on submit
